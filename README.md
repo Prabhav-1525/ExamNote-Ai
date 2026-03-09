@@ -1,74 +1,101 @@
 # ⚡ ExamNote AI
 
-> Transform study notes into intelligent flashcards, audio scripts, and video ideas using GPT-4.
+> Transform your study notes into intelligent flashcards, audio scripts, and video ideas — powered by Groq AI.
 
-![Stack](https://img.shields.io/badge/React-18-blue) ![Node](https://img.shields.io/badge/Node.js-18-green) ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen) ![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-orange)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-7C6CF5?style=for-the-badge)](https://exam-note-ai.vercel.app)
+[![Backend](https://img.shields.io/badge/Backend-Render-10B981?style=for-the-badge)](https://examnote-ai.onrender.com)
+[![MongoDB](https://img.shields.io/badge/Database-MongoDB_Atlas-47A248?style=for-the-badge)](https://cloud.mongodb.com)
+
+---
+
+## 🎯 What is ExamNote AI?
+
+ExamNote AI takes your messy PDF or Word study notes and instantly converts them into **4 types of interactive study materials** using AI — so you can study smarter, not harder.
 
 ---
 
 ## ✨ Features
 
-- **🔐 Auth** — JWT-based email/password login with bcrypt hashing
-- **📤 File Upload** — Drag & drop PDF/Word files (max 10MB) with Multer
-- **🤖 AI Processing** — GPT-4o extracts and generates 4 card types
-- **🃏 Flashcards** — Front/back flip animation with SM-2 spaced repetition
-- **📝 Quick Notes** — Collapsible topic bullets with copy-to-clipboard
-- **🔊 Audio Cards** — Text-to-speech (Web Speech API) with scripts
-- **🎬 Video Cards** — 30-sec explainer scripts + YouTube search links
-- **🧠 Study Mode** — Quiz/review modes with progress tracking
-- **📊 Analytics** — Cards created, study time, upload stats
-- **🌙 Dark Mode** — Persisted per-user setting
-- **📤 Export** — CSV and Anki-format export
+| Feature | Description |
+|--------|-------------|
+| 🔐 **Auth System** | JWT-based login & register with bcrypt password hashing |
+| 📤 **File Upload** | Drag & drop PDF / Word files up to 10MB |
+| 🤖 **AI Processing** | Groq LLaMA extracts and generates study cards automatically |
+| 🃏 **Flashcards** | Flip animation with SM-2 spaced repetition tracking |
+| 📝 **Quick Notes** | Collapsible bullet points with copy-to-clipboard |
+| 🔊 **Audio Cards** | Text-to-speech playback using Web Speech API |
+| 🎬 **Video Cards** | 30-sec explainer scripts + YouTube search links |
+| 🧠 **Study Mode** | Quiz & review modes with progress tracking |
+| 📊 **Analytics** | Cards created, study time, files processed |
+| 🌙 **Dark Mode** | Persisted per-user preference |
+| 📤 **Export** | Download cards as CSV or Anki format |
 
 ---
 
-## 🏗️ Project Structure
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 18** with React Router v6
+- **Tailwind CSS** for styling
+- **Framer Motion** for animations
+- **React Dropzone** for file uploads
+- **Web Speech API** for text-to-speech
+
+### Backend
+- **Node.js + Express**
+- **MongoDB + Mongoose**
+- **JWT** for authentication
+- **bcryptjs** for password hashing
+- **Multer** for file handling
+- **pdf-parse** for PDF text extraction
+- **mammoth.js** for Word text extraction
+- **Groq SDK** (LLaMA 3.3 70B) for AI card generation
+
+### Deployment
+- **Vercel** — Frontend
+- **Render** — Backend
+- **MongoDB Atlas** — Database
+- **Groq** — AI (free tier)
+
+---
+
+## 📁 Project Structure
 
 ```
 examNote-ai/
 ├── backend/
 │   ├── controllers/
-│   │   ├── authController.js      # Login/register
-│   │   ├── cardsController.js     # CRUD + review + export
-│   │   └── uploadController.js    # File upload + AI processing
+│   │   ├── authController.js       # Login / Register
+│   │   ├── cardsController.js      # CRUD, review, export
+│   │   └── uploadController.js     # File upload + AI processing
 │   ├── middleware/
-│   │   └── auth.js                # JWT protect middleware
+│   │   └── auth.js                 # JWT protection
 │   ├── models/
-│   │   ├── User.js                # User + bcrypt + rate limit
-│   │   └── CardSet.js             # Cards schema (all types)
+│   │   ├── User.js                 # User schema + bcrypt
+│   │   └── CardSet.js              # All 4 card types schema
 │   ├── routes/
-│   │   ├── auth.js                # /api/auth/*
-│   │   ├── cards.js               # /api/cards/*
-│   │   ├── upload.js              # /api/upload/*
-│   │   └── user.js                # /api/user/*
-│   ├── uploads/                   # Temp file storage (gitignored)
-│   ├── server.js                  # Express entry point
-│   ├── .env.example
-│   └── package.json
+│   │   ├── auth.js
+│   │   ├── cards.js
+│   │   ├── upload.js
+│   │   └── user.js
+│   ├── server.js
+│   └── .env.example
 │
 └── frontend/
-    ├── public/
-    │   └── index.html
-    ├── src/
-    │   ├── components/
-    │   │   └── layout/
-    │   │       └── Navbar.jsx
-    │   ├── contexts/
-    │   │   └── AuthContext.jsx    # Auth state + dark mode
-    │   ├── pages/
-    │   │   ├── Login.jsx
-    │   │   ├── Register.jsx
-    │   │   ├── Dashboard.jsx      # Card set gallery + stats
-    │   │   ├── Upload.jsx         # File upload + polling
-    │   │   ├── CardSetView.jsx    # All 4 card types
-    │   │   └── StudyMode.jsx      # Flip cards + quiz mode
-    │   ├── utils/
-    │   │   └── api.js             # Axios with auth interceptor
-    │   ├── App.jsx                # Routes + auth guards
-    │   └── index.css              # Tailwind + custom styles
-    ├── tailwind.config.js
-    ├── vercel.json
-    └── package.json
+    └── src/
+        ├── pages/
+        │   ├── Login.jsx
+        │   ├── Register.jsx
+        │   ├── Dashboard.jsx       # Card gallery + stats
+        │   ├── Upload.jsx          # Drag & drop + polling
+        │   ├── CardSetView.jsx     # All 4 card types
+        │   └── StudyMode.jsx       # Quiz & review
+        ├── contexts/
+        │   └── AuthContext.jsx     # Global auth + dark mode
+        ├── components/
+        │   └── layout/Navbar.jsx
+        └── utils/
+            └── api.js              # Axios + auth interceptor
 ```
 
 ---
@@ -76,152 +103,117 @@ examNote-ai/
 ## 🚀 Local Development
 
 ### Prerequisites
-
 - Node.js 18+
 - MongoDB (local or Atlas)
-- OpenAI API key
+- Groq API key (free at [console.groq.com](https://console.groq.com))
 
-### 1. Clone & install
-
+### 1. Clone the repo
 ```bash
-git clone <your-repo>
+git clone https://github.com/YOUR_USERNAME/examNote-ai.git
 cd examNote-ai
-
-# Install backend
-cd backend && npm install
-
-# Install frontend
-cd ../frontend && npm install
 ```
 
-### 2. Configure environment
-
+### 2. Setup Backend
 ```bash
-# backend/.env
-cp backend/.env.example backend/.env
+cd backend
+cp .env.example .env
+npm install
+npm run dev        # Runs on http://localhost:5000
 ```
 
-Edit `backend/.env`:
+Fill in `backend/.env`:
 ```env
 PORT=5000
-MONGODB_URI=mongodb+srv://USER:PASS@cluster.mongodb.net/examnote
-JWT_SECRET=your-32-char-random-secret-here
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/examnote
+JWT_SECRET=your_random_secret_here
 JWT_EXPIRES_IN=7d
-OPENAI_API_KEY=sk-...
+GROQ_API_KEY=gsk_your_groq_key
 NODE_ENV=development
 FRONTEND_URL=http://localhost:3000
 ```
 
+### 3. Setup Frontend
 ```bash
-# frontend/.env
-echo "REACT_APP_API_URL=http://localhost:5000/api" > frontend/.env
+cd frontend
+echo "REACT_APP_API_URL=http://localhost:5000/api" > .env
+npm install
+npm start          # Opens http://localhost:3000
 ```
-
-### 3. Run
-
-```bash
-# Terminal 1 — Backend
-cd backend && npm run dev
-
-# Terminal 2 — Frontend
-cd frontend && npm start
-```
-
-App runs at `http://localhost:3000`
 
 ---
 
 ## ☁️ Deployment
 
-### Backend → Render
+| Service | Platform | Cost |
+|---------|----------|------|
+| Frontend | Vercel | Free |
+| Backend | Render | Free |
+| Database | MongoDB Atlas M0 | Free |
+| AI | Groq LLaMA | Free |
 
+### Backend → Render
 1. Push code to GitHub
 2. Go to [render.com](https://render.com) → New Web Service
-3. Connect your repo, set root to `backend/`
-4. **Build command:** `npm install`
-5. **Start command:** `npm start`
-6. Add environment variables:
-   - `MONGODB_URI`
-   - `JWT_SECRET`
-   - `OPENAI_API_KEY`
-   - `FRONTEND_URL` (your Vercel URL)
-   - `NODE_ENV=production`
-7. Deploy → note your Render URL (e.g. `https://examnote-api.onrender.com`)
+3. Connect repo, set root to `backend/`
+4. Build: `npm install` · Start: `npm start`
+5. Add environment variables (same as `.env` above but with `NODE_ENV=production`)
 
 ### Frontend → Vercel
-
 1. Go to [vercel.com](https://vercel.com) → New Project
-2. Connect your repo, set root to `frontend/`
-3. Add environment variable:
-   - `REACT_APP_API_URL=https://examnote-api.onrender.com/api`
+2. Connect repo, set root to `frontend/`
+3. Add env variable: `REACT_APP_API_URL=https://your-render-url.onrender.com/api`
 4. Deploy!
+
+### Final Step
+Go back to Render → Environment → update `FRONTEND_URL` to your Vercel URL.
 
 ---
 
-## 🔑 API Reference
+## 🔑 API Endpoints
 
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
 | POST | `/api/auth/register` | ❌ | Create account |
 | POST | `/api/auth/login` | ❌ | Login, get JWT |
 | GET | `/api/auth/me` | ✅ | Get current user |
-| POST | `/api/upload` | ✅ | Upload + process file |
+| POST | `/api/upload` | ✅ | Upload & process file |
 | GET | `/api/upload/status/:id` | ✅ | Poll processing status |
 | GET | `/api/cards` | ✅ | List all card sets |
 | GET | `/api/cards/:id` | ✅ | Get single card set |
 | DELETE | `/api/cards/:id` | ✅ | Delete card set |
-| POST | `/api/cards/:id/review` | ✅ | Update card review (SM-2) |
+| POST | `/api/cards/:id/review` | ✅ | SM-2 spaced repetition |
 | POST | `/api/cards/:id/quiz` | ✅ | Save quiz attempt |
-| POST | `/api/cards/:id/study-time` | ✅ | Log study time |
-| GET | `/api/cards/:id/export?format=csv\|anki` | ✅ | Export cards |
-| PATCH | `/api/user/settings` | ✅ | Update dark mode/goals |
+| GET | `/api/cards/:id/export` | ✅ | Export CSV or Anki |
 
 ---
 
 ## 🔒 Security
 
 - Passwords hashed with **bcrypt** (12 rounds)
-- Routes protected by **JWT** middleware
-- **Helmet.js** for HTTP security headers
-- **CORS** restricted to frontend URL
-- **Rate limiting** on auth (10 req/15min) and uploads (3/hour free)
-- Input validation with **express-validator**
-- File type validation (PDF/DOCX only)
-- File size limit (10MB)
+- All routes protected by **JWT middleware**
+- **Helmet.js** HTTP security headers
+- **CORS** restricted to frontend URL only
+- **Rate limiting** on auth (10 req/15min)
+- File type validation — PDF and DOCX only
+- 10MB file size limit enforced by Multer
+- Input sanitization with **express-validator**
 
 ---
 
-## 🧠 AI System Prompt
+## 🧠 AI Prompt
 
-The following prompt is sent to GPT-4o for card generation:
+The following system prompt is sent to Groq LLaMA 3.3 70B:
 
 ```
 Convert these study notes into structured study materials.
-Generate: flashcards (Q&A with difficulty), quick notes (topic bullets),
-audio card scripts (spoken explanations), and video card concepts 
-(30-sec explainer with visual ideas). Format as JSON.
+Generate flashcards (Q&A with difficulty rating), quick notes
+(topic-grouped bullet points), audio card scripts (natural spoken
+explanations), and video card concepts (30-sec explainer scripts
+with visual ideas). Return as JSON only.
 ```
-
----
-
-## 📦 Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| Frontend | React 18, React Router v6, Tailwind CSS |
-| Animations | CSS transforms, Framer Motion |
-| Backend | Node.js, Express 4 |
-| Database | MongoDB, Mongoose |
-| Auth | JWT, bcryptjs |
-| File handling | Multer |
-| PDF parsing | pdf-parse |
-| Word parsing | mammoth.js |
-| AI | OpenAI GPT-4o |
-| TTS | Web Speech API |
-| Deployment | Vercel (frontend), Render (backend) |
 
 ---
 
 ## 📄 License
 
-MIT
+Developed and maintained by Prabhav Saxena.
