@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Default = Dark mode */
 :root {
   --bg-primary: #0a0a18;
   --bg-secondary: #14142b;
@@ -18,14 +19,34 @@
   --error: #f43f5e;
 }
 
-.light {
+/* Light mode — triggered when .dark is NOT on <html> */
+:root:not(.dark) {
   --bg-primary: #f8f8fc;
   --bg-secondary: #ffffff;
   --bg-card: #ffffff;
   --border: rgba(0,0,0,0.08);
   --accent: #6b5cf0;
+  --accent-hover: #5a4de0;
   --text-primary: #14142b;
   --text-secondary: #6161a0;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #f43f5e;
+}
+
+/* Dark mode — triggered when .dark IS on <html> */
+:root.dark {
+  --bg-primary: #0a0a18;
+  --bg-secondary: #14142b;
+  --bg-card: #1a1a35;
+  --border: rgba(255,255,255,0.08);
+  --accent: #7c6cf5;
+  --accent-hover: #6b5cf0;
+  --text-primary: #f0f0f5;
+  --text-secondary: #9191b8;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #f43f5e;
 }
 
 * { box-sizing: border-box; }

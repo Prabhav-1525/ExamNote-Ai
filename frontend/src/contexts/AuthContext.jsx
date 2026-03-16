@@ -9,8 +9,15 @@ export function AuthProvider({ children }) {
   const [darkMode, setDarkMode] = useState(false);
 
   const applyTheme = useCallback((isDark) => {
-    if (isDark) document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      document.body.style.background = '#0a0a18';
+      document.body.style.color = '#f0f0f5';
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.style.background = '#f8f8fc';
+      document.body.style.color = '#14142b';
+    }
     setDarkMode(isDark);
   }, []);
 
@@ -21,7 +28,7 @@ export function AuthProvider({ children }) {
     api.get('/auth/me')
       .then(({ data }) => {
         setUser(data.user);
-        applyTheme(data.user.settings?.darkMode || false);
+        applyTheme(data.user.settings?.darkMode || localStorage.getItem('darkMode') === 'true');
       })
       .catch(() => localStorage.removeItem('token'))
       .finally(() => setLoading(false));
@@ -51,6 +58,7 @@ export function AuthProvider({ children }) {
   const toggleDarkMode = async () => {
     const newMode = !darkMode;
     applyTheme(newMode);
+    localStorage.setItem('darkMode', String(newMode));
     if (user) {
       try { await api.patch('/user/settings', { darkMode: newMode }); } catch {}
       setUser(prev => ({ ...prev, settings: { ...prev.settings, darkMode: newMode } }));
